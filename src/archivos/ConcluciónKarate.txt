@@ -1,0 +1,12 @@
+Conclución:
+Se desarrollo la automatización del API utilizando herramienta karate tomando en considercion la sugerencia del cliente
+Escenarios desarrollados:
+• Añadir una mascota a la tienda
+• Consultar la mascota ingresada previamente (Búsqueda por ID)
+• Actualizar el nombre de la mascota y el estatus de la mascota a “sold”
+• Consultar la mascota modificada por estatus (Búsqueda por estatus)
+
+se automatizo los API con satisfaccion.
+
+
+ 
