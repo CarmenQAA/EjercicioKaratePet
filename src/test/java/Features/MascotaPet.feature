@@ -1,3 +1,4 @@
+@prueba
 Feature: Prueba API Tienda de mascotas
   Background: defino url
   Given url 'https://petstore.swagger.io/v2/'
@@ -7,73 +8,50 @@ Feature: Prueba API Tienda de mascotas
   Scenario: AgregarMascota
     Given path 'pet'
     And header Content-Type = "application/json"
-    And request
-    """{
-    "id": 0,
-    "category": {
-    "id": 0,
-    "name": "string"
-    },
-    "name": "doggie",
-    "photoUrls": [
-    "string"
-    ],
-    "tags": [
-    {
-    "id": 0,
-    "name": "string"
-    }
-    ],
-    "status": "available"
-    }
-  """
+    And def datacrear = read('dataget.json')
+    And request datacrear
     When method post
     Then status 200
     * print response
-
+    And def responseid = response.id
+    * def responseidString = responseid + ''
+    * karate.write('responseId.txt', responseidString)
+    * print responseidString
 
   @GetId
   Scenario: Consultar Mascota por ID
-    Given path 'pet/9223372036854772768'
+    * def responseidString = read('responseId.txt')
+    Given path 'pet/9223372036854573173'
     When method get
     Then status 200
     * print response
 
-
   @Put
-  Scenario: Modificar Mascota
+  Scenario Outline: Modificar Mascota
     Given path 'pet'
     And header Content-Type = "application/json"
-    And request
-    """{
-      "id": 0,
-      "category": {
-        "id": 0,
-        "name": "string"
-      },
-      "name": "Labrador",
-      "photoUrls": [
-        "string"
-      ],
-      "tags": [
-        {
-          "id": 0,
-          "name": "string"
-        }
-      ],
-      "status": "sold"
-    }
-  """
+    And def databuscar = read('data.json')
+    And request databuscar
     When method post
     Then status 200
     * print response
 
+    Examples:
+    |Vname|Vstatus|
+    |Pastor aleman |sold   |
+
   @GetEstatus
-  Scenario: Consultar Mascota por status
+  Scenario Outline: Consultar Mascota por status
     Given path 'pet/findByStatus'
-    And params {status:'sold'}
+    #And params {status:'sold'}
+    And def dataStatus = read('data.json')
+    And params dataStatus
     When method get
     Then status 200
     * print response
+
+    Examples:
+    |vstatus|
+    |sold   |
 
 
